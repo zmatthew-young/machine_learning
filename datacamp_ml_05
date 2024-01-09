@@ -1,0 +1,63 @@
+from sklearn.neighbors import KNeighborsClassifier
+
+# Create and fit the model
+knn = KNeighborsClassifier()
+knn.fit(x_train, y_train)
+
+# Predict on the test features, print the results
+pred = knn.predict(x_test)[0]
+print("Prediction for test example 0:", pred)
+
+
+
+from sklearn import datasets
+df = datasets.load_digits()
+x_train, x_test, y_train, y_test = train_test_split(df.data, df.target)
+
+# Apply logistic regression and print scores
+model = LogisticRegression()
+model.fit(x_train, y_train)
+print(model.score(x_train, y_train))
+print(model.score(x_test, y_test))
+
+# SVM
+svm = SVC()
+svm.fit(x_train, y_train)
+print(svm.score(x_train, y_train))
+print(svm.score(x_test, y_test))
+
+
+
+# Instantiate logistic regression and train
+model = LogisticRegression()
+model.fit(x, y)
+
+# Predict Sentiment for Good Review 
+review1 = "LOVED IT! This movie was amazing. Top 10 this year."
+review1_features = get_features(review1)
+print("Review:", review1)
+print("Probability of positive review:", model.predict_proba(review1_features)[0,1])
+
+# Predict Sentiment for Bad Review
+review2 = "Total junk! I'll never watch a film by that director again, no matter how good the reviews."
+review2_features = get_features(review2)
+print("Review:", review2)
+print("Probability of positive review:", model.predict_proba(review2_features)[0,1])
+
+
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC, LinearSVC
+from sklearn.neighbors import KNeighborsClassifier
+
+# Define Classifiers
+classifiers = [LogisticRegression(), LinearSVC(),
+               SVC(), KNeighborsClassifier()]
+
+# Fit Classifiers
+for c in classifiers:
+    c.fit(x, y)
+
+# Plot Classifiers
+plot_4_classifiers(x, y, classifiers)
+plt.show()
