@@ -1,0 +1,64 @@
+# Libraries
+import matplotlib.pyplot as plt
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+import seaborn as sns
+from sklearn.metrics import f1_score
+
+# Dataset
+df = pd.read_csv("soil_measures.csv")
+
+# NA Values
+df.isna().sum()
+
+# Multi-Class Target
+df.crop.unique()
+
+# Split the data into training and testing sets
+x_train, x__test, y_train, y_test = train_test_split(
+    df[["N", "P", "K", "ph"]],
+    df["crop"],
+    test_size=0.2,
+    random_state=42
+)
+
+# Logistic Model Setup 
+for feature in ["N", "P", "K", "ph"]:
+    model = LogisticRegression(
+        max_iter=2000,
+        multi_class="multinomial")
+  
+model.fit(X_train[[feature]], y_train)
+  
+y_predict = model.predict(x_test[[feature]])
+
+f1 = f1_score(y_test, y_predict, average="weighted")
+
+print(f1)
+
+# Correlation Matrix
+df_corr = crops[["N", "P", "K", "ph"]].corr()
+
+# Heatmap
+sns.heatmap(df_corr, annot=True)
+plt.show()
+
+# Final Features
+features = ["N", "K", "ph"]
+
+# Split Final Features
+x_train, x_test, y_train, y_test = train_test_split(
+    df[features],
+    df["crop"],
+    test_size=0.2,
+    random_state=42)
+
+# Train New Model 
+model = LogisticRegression(
+    max_iter=2000, 
+    multi_class="multinomial"
+)
+model.fit(x_train, y_train)
+y_predict = model.predictxX_test)
+model_performance = f1_score(y_test, y_predict, average="weighted")
