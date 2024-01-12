@@ -1,0 +1,168 @@
+# Split 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Model
+model = DecisionTreeRegressor(min_samples_leaf=3, min_samples_split=9, random_state=500)
+
+# Fit 
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = reg_dt.predict(X_test)
+print('MAE: {:.3f}'.format(mean_absolute_error(y_test, y_pred)))
+
+# Setup Models
+knn_model = KNeighborsClassifier(n_neighbors=5)
+lr_model = LogisticRegression(class_weight='balanced')
+dt_model = DecisionTreeClassifier(min_samples_leaf=3, min_samples_split=9, random_state=500)
+  
+# Ensemble Predictions 
+pred_lr = lr_model.predict(X_test)
+pred_dt = dt_model.predict(X_test)
+pred_knn = knn_model.predict(X_test)
+
+# F1 Scores
+lr_f1 = f1_score(y_test, pred_lr)
+dt_f1 = f1_score(y_test, pred_dt)
+knn_f1 = f1_score(y_test, pred_knn)
+
+print(score_lr)
+print(score_dt)
+print(score_knn)
+
+
+  
+# Vote Fit
+vote = VotingClassifier(
+    estimators=[('knn', knn_model), ('lr', lr_model), ('dt', dt_model)]
+)
+vote.fit(X_train, y_train)
+
+# Vote Prediction
+pred_vote = clf_vote.predict(X_test)
+
+# F1 Score
+f1 = f1_score(y_test, pred_vote)
+print('F1-Score: {:.3f}'.format(score_vote))
+
+# Classification Report
+report = classification_report(y_test, pred_vote)
+print(report)
+
+
+
+# Setup Models
+lr_model = LogisticRegression(class_weight='balanced')
+dt_model = DecisionTreeClassifier(min_samples_leaf=3, min_samples_split=9, random_state=500)
+svm_model = SVC(probability=True, class_weight='balanced', random_state=500)
+
+# Estimators
+estimators = [('lr', clf_lr), ('dt', clf_dt), ('svm', clf_svm)]
+
+# Setup Vote
+vote = VotingClassifier(estimators, voting='soft')
+vote.fit(X_train, y_train)
+
+# Score
+vote_acc = accuracy_score(y_test,  vote.predict(X_test))
+print('Accuracy: {:.2f}'.format(acc_avg))
+
+
+
+# Unrestricted Decision Tree
+model = DecisionTreeClassifier(min_samples_leaf=3, min_samples_split=9, random_state=500)
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, pred)
+print('Confusion matrix:\n', cm)
+
+# F1 Score
+f1 = f1_score(y_test, pred)
+print('F1-Score: {:.3f}'.format(score))
+
+
+
+# Restricted Decision Tree
+model = DecisionTreeClassifier(max_depth=4, max_features=2, random_state=500)
+model.fit(X_train, y_train)
+
+# Predict the labels
+y_pred = model.predict(X_test)
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, pred)
+print('Confusion matrix:\n', cm)
+
+# F1 Score
+f1 = f1_score(y_test, pred)
+print('F1-Score: {:.3f}'.format(score))
+
+
+
+# Balanced Logistic Regression
+lr_model = LogisticRegression(class_weight='balanced', solver='liblinear', random_state=42)
+
+# Bagging Classifier
+bag_model = BaggingClassifier(base_estimator=lr_model, max_features=10, oob_score=True, random_state=500)
+bag_model.fit(X_train, y_train)
+
+# OOB Score
+y_pred = bag_model.predict(X_test)
+print('Accuracy:  {:.2f}'.format(accuracy_score(y_test, pred)))
+print('OOB-Score: {:.2f}'.format(clf_bag.oob_score_))
+
+# Confusion Matrix
+print(confusion_matrix(y_test, pred))
+
+# Classification Report
+print(classification_report(y_test, y_pred))
+
+
+
+# Linear Regression 
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict
+y_pred = model.predict(X_test)
+
+# RMSE
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+print('RMSE: {:.3f}'.format(rmse))
+
+
+  
+# Linear Regression 
+model = LinearRegression()
+
+# AdaBoost Regressor
+ada = AdaBoostRegressor(base_estimator=model, n_estimators=12, random_state=500)
+ada.fit(X_train, y_train)
+
+# Predict
+y_pred = ada.predict(X_test)
+
+# RMSE
+rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+print('RMSE: {:.3f}'.format(rmse))
+
+
+
+# Gradient Boosting 
+gb = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, random_state=500)
+gb.fit(X_train, y_train)
+
+# Predictions 
+y_pred = gb.predict(X_test)
+
+# Score
+acc = accuracy_score(y_test, y_pred)
+print('Accuracy: {:.3f}'.format(acc))
+
+# Confusion Matrix
+cm = confusion_matrix(y_test, pred)
+print(cm)
