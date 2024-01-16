@@ -35,3 +35,43 @@ centroids_y = centroids[:,1]
 # Scatter
 plt.scatter(centroids_x, centroids_y, marker='D', s=50)
 plt.show()
+
+
+
+# Clusters
+ks = range(1, 6)
+inertias = []
+
+for k in ks:
+    # Model
+    model = KMeans(n_clusters=k)
+    
+    # Fit 
+    model.fit(samples)
+    
+    # Inertias
+    inertias.append(model.inertia_)
+    
+# Plot Inertias
+plt.plot(ks, inertias, '-o')
+plt.xlabel('number of clusters, k')
+plt.ylabel('inertia')
+plt.xticks(ks)
+plt.show()
+
+
+
+# Model
+model = KMeans(n_clusters=3)
+
+# Fit_predict 
+labels = model.fit_predict(samples)
+
+# DataFrame 
+df = pd.DataFrame({'labels': labels, 'varieties': varieties})
+
+# Crosstab
+ct = pd.crosstab(df['labels'], df['varieties'])
+
+# Print
+print(ct)
