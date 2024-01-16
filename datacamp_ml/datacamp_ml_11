@@ -1,0 +1,37 @@
+# Import KMeans
+from sklearn.cluster import KMeans
+
+# Model
+model = KMeans(n_clusters=3)
+
+# Fit 
+model.fit(points)
+
+# Labels
+labels = model.predict(new_points)
+
+# Print 
+print(labels)
+
+
+
+# Import
+from matplotlib import pyplot as plt
+
+# Assign 
+xs = new_points[:,0]
+ys = new_points[:,1]
+
+# Scatter 
+plt.scatter(xs, ys, c=labels, alpha=0.5)
+
+# Centroids
+centroids = model.cluster_centers_
+
+# Assign Centroids
+centroids_x = centroids[:,0]
+centroids_y = centroids[:,1]
+
+# Scatter
+plt.scatter(centroids_x, centroids_y, marker='D', s=50)
+plt.show()
