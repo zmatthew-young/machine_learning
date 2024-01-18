@@ -14,3 +14,6 @@ ml_13: Support Vector Machines
 ml_14: Linear Regression 
 mL_15: Cross Validation Score
 ml_16: Lasso Regression 
+ml_17: Preprocessing
+ml_18: Bagging Classifier 
+ml_19: Bagging Classifier
